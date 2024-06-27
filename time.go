@@ -18,6 +18,19 @@ type Time struct {
 	Value **time.Time
 }
 
+func NewTime(v Value, t time.Time) Time {
+	switch v {
+	case Empty:
+		return Time{Value: nil}
+	case Null:
+		return Time{Value: new(*time.Time)}
+	case HasValue:
+		p := &t
+		return Time{Value: &p}
+	}
+	panic("invalid optnull.Value; must be one of Empty, Null, or HasValue")
+}
+
 func (t *Time) UnmarshalJSON(b []byte) error {
 	t.Value = new(*time.Time)
 	return json.Unmarshal(b, t.Value)

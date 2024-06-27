@@ -34,20 +34,20 @@ func NewString(v Value, s string) String {
 	panic("invalid optnull.Value; must be one of Empty, Null, or HasValue")
 }
 
-func (o *String) UnmarshalJSON(b []byte) error {
-	o.Value = new(*string)
-	return json.Unmarshal(b, o.Value)
+func (s *String) UnmarshalJSON(b []byte) error {
+	s.Value = new(*string)
+	return json.Unmarshal(b, s.Value)
 }
-func (o *String) Empty() bool    { return o.Value == nil }
-func (o *String) Null() bool     { return o.Value != nil && *o.Value == nil }
-func (o *String) HasValue() bool { return o.Value != nil && *o.Value != nil }
-func (o *String) String() string {
-	if o.Value == nil || *o.Value == nil {
+func (s *String) Empty() bool    { return s.Value == nil }
+func (s *String) Null() bool     { return s.Value != nil && *s.Value == nil }
+func (s *String) HasValue() bool { return s.Value != nil && *s.Value != nil }
+func (s *String) String() string {
+	if s.Value == nil || *s.Value == nil {
 		return ""
 	}
-	return **o.Value
+	return **s.Value
 }
-func (s *String) Ptr() *string {
+func (s *String) Pointer() *string {
 	if s.Value == nil {
 		return nil
 	}

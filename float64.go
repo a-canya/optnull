@@ -15,6 +15,19 @@ type Float64 struct {
 	Value **float64
 }
 
+func NewFloat64(v Value, f float64) Float64 {
+	switch v {
+	case Empty:
+		return Float64{}
+	case Null:
+		return Float64{Value: new(*float64)}
+	case HasValue:
+		p := &f
+		return Float64{Value: &p}
+	}
+	panic("invalid optnull.Value; must be one of Empty, Null, or HasValue")
+}
+
 func (f *Float64) UnmarshalJSON(b []byte) error {
 	f.Value = new(*float64)
 	return json.Unmarshal(b, f.Value)

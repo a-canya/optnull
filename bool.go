@@ -16,6 +16,19 @@ type Bool struct {
 	Value **bool
 }
 
+func NewBool(v Value, b bool) Bool {
+	switch v {
+	case Empty:
+		return Bool{}
+	case Null:
+		return Bool{Value: new(*bool)}
+	case HasValue:
+		p := &b
+		return Bool{Value: &p}
+	}
+	panic("invalid optnull.Value; must be one of Empty, Null, or HasValue")
+}
+
 func (b *Bool) UnmarshalJSON(j []byte) error {
 	b.Value = new(*bool)
 	return json.Unmarshal(j, b.Value)

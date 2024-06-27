@@ -15,6 +15,19 @@ type Int64 struct {
 	Value **int64
 }
 
+func NewInt64(v Value, i int64) Int64 {
+	switch v {
+	case Empty:
+		return Int64{}
+	case Null:
+		return Int64{Value: new(*int64)}
+	case HasValue:
+		p := &i
+		return Int64{Value: &p}
+	}
+	panic("invalid optnull.Value; must be one of Empty, Null, or HasValue")
+}
+
 func (o *Int64) UnmarshalJSON(b []byte) error {
 	o.Value = new(*int64)
 	return json.Unmarshal(b, o.Value)

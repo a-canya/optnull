@@ -15,6 +15,18 @@ type Any struct {
 	Value *any
 }
 
+func NewAny(v Value, a any) Any {
+	switch v {
+	case Empty:
+		return Any{}
+	case Null:
+		return Any{Value: new(any)}
+	case HasValue:
+		return Any{Value: &a}
+	}
+	panic("invalid optnull.Value; must be one of Empty, Null, or HasValue")
+}
+
 func (a *Any) UnmarshalJSON(b []byte) error {
 	a.Value = new(any)
 	return json.Unmarshal(b, a.Value)

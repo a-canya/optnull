@@ -15,6 +15,19 @@ type Int struct {
 	Value **int
 }
 
+func NewInt(v Value, i int) Int {
+	switch v {
+	case Empty:
+		return Int{}
+	case Null:
+		return Int{Value: new(*int)}
+	case HasValue:
+		p := &i
+		return Int{Value: &p}
+	}
+	panic("invalid optnull.Value; must be one of Empty, Null, or HasValue")
+}
+
 func (i *Int) UnmarshalJSON(b []byte) error {
 	i.Value = new(*int)
 	return json.Unmarshal(b, i.Value)
