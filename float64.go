@@ -10,7 +10,13 @@ import "encoding/json"
 //	null       | Float64{Value: &nil}
 //	123        | Float64{Value: &&123}
 //
-// It may be used to unmarshal JSON values. For marshalling, use *NullFloat64 with omitempty.
+// It may be used to unmarshal JSON values. For marshalling, use Value directly:
+//
+//	Go value (**float64) | JSON value after marshalling (omitempty)
+//	---------------------|-----------------------------------------
+//	nil                  | (empty)
+//	&nil                 | null
+//	&&123                | 123
 type Float64 struct {
 	Value **float64
 }

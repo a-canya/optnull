@@ -10,7 +10,13 @@ import "encoding/json"
 //	null       | Int{Value: &nil}
 //	123        | Int{Value: &&123}
 //
-// It may be used to unmarshal JSON values. For marshalling, use *NullInt with omitempty.
+// It may be used to unmarshal JSON values. For marshalling, use Value directly:
+//
+//	Go value (**int) | JSON value after marshalling (omitempty)
+//	-----------------|-----------------------------------------
+//	nil              | (empty)
+//	&nil             | null
+//	&&123            | 123
 type Int struct {
 	Value **int
 }

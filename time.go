@@ -13,7 +13,13 @@ import (
 //	null                   | Time{Value: &nil}
 //	"2022-02-22T02:02:02Z" | Time{Value: &&time.Time{...}}
 //
-// It may be used to unmarshal JSON values.
+// It may be used to unmarshal JSON values. For marshalling, use Value directly:
+//
+//	Go value (**time.Time) | JSON value after marshalling (omitempty)
+//	-----------------------|-----------------------------------------
+//	nil                    | (empty)
+//	&nil                   | null
+//	&&time.Time{...}       | "2022-02-22T02:02:02Z"
 type Time struct {
 	Value **time.Time
 }

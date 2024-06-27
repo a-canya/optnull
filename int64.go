@@ -10,7 +10,13 @@ import "encoding/json"
 //	null       | Int64{Value: &nil}
 //	123        | Int64{Value: &&123}
 //
-// It may be used to unmarshal JSON values. For marshalling, use *NullInt64 with omitempty.
+// It may be used to unmarshal JSON values. For marshalling, use Value directly:
+//
+//	Go value (**int64) | JSON value after marshalling (omitempty)
+//	-------------------|-----------------------------------------
+//	nil                | (empty)
+//	&nil               | null
+//	&&123              | 123
 type Int64 struct {
 	Value **int64
 }

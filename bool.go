@@ -11,7 +11,14 @@ import "encoding/json"
 //	true       | Bool{Value: &&true}
 //	false      | Bool{Value: &&false}
 //
-// It may be used to unmarshal JSON values.
+// It may be used to unmarshal JSON values. For marshalling, use Value directly:
+//
+//	Go value (**bool) | JSON value after marshalling (omitempty)
+//	------------------|-----------------------------------------
+//	nil               | (empty)
+//	&nil              | null
+//	&&true            | true
+//	&&false           | false
 type Bool struct {
 	Value **bool
 }

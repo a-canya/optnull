@@ -10,7 +10,14 @@ import "encoding/json"
 //	null       | Any{Value: &nil}
 //	"string"   | Any{Value: &"string"}
 //
-// It may be used to unmarshal JSON values. For marshalling, use *NullAny with omitempty.
+// It may be used to unmarshal JSON values. For marshalling, use Value directly:
+//
+//	Go value (*any) | JSON value after marshalling (omitempty)
+//	----------------|-----------------------------------------
+//	nil             | (empty)
+//	&nil            | null
+//	&"string"       | "string"
+//	&1.5			| 1.5
 type Any struct {
 	Value *any
 }
