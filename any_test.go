@@ -30,3 +30,53 @@ func TestUnmarshalAny(t *testing.T) {
 		assert.Equal(t, tt.want, s.X, "input = %q", tt.input)
 	}
 }
+
+func BenchmarkUnmarshalOptNullAny(b *testing.B) {
+	tests := []struct {
+		input string
+		want  optnull.Any
+	}{
+		{`{}`, optnull.NewAny(optnull.Empty, nil)},
+		{`{"x": null}`, optnull.NewAny(optnull.Null, nil)},
+		{`{"x": 1}`, optnull.NewAny(optnull.HasValue, 1.0)},
+		{`{"x": "string"}`, optnull.NewAny(optnull.HasValue, "string")},
+		{`{"x": {"y": 2}}`, optnull.NewAny(optnull.HasValue, map[string]any{"y": 2.0})},
+		{`{"x": [1, 2, 3]}`, optnull.NewAny(optnull.HasValue, []any{1.0, 2.0, 3.0})},
+	}
+
+	for _, tt := range tests {
+		b.Run(tt.input, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				var s struct {
+					X optnull.Any `json:"x"`
+				}
+				_ = json.Unmarshal([]byte(tt.input), &s)
+			}
+		})
+	}
+}
+
+func BenchmarkUnmarshalAny(b *testing.B) {
+	tests := []struct {
+		input string
+		want  any
+	}{
+		{`{}`, nil},
+		{`{"x": null}`, nil},
+		{`{"x": 1}`, 1.0},
+		{`{"x": "string"}`, "string"},
+		{`{"x": {"y": 2}}`, map[string]any{"y": 2.0}},
+		{`{"x": [1, 2, 3]}`, []any{1.0, 2.0, 3.0}},
+	}
+
+	for _, tt := range tests {
+		b.Run(tt.input, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				var s struct {
+					X any `json:"x"`
+				}
+				_ = json.Unmarshal([]byte(tt.input), &s)
+			}
+		})
+	}
+}
