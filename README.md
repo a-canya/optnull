@@ -10,10 +10,10 @@ JSON values that may be empty, null, or have a value.
 
 ```go
 type User struct {
-    ID    string             `json:"id"`
-    Name  optnull[string]    `json:"name,omitempty"`
-    Age   optnull[int]       `json:"age,omitempty"`
-    Birth optnull[time.Time] `json:"birth,omitempty"`
+    ID    string                     `json:"id"`
+    Name  optnull.OptNull[string]    `json:"name,omitempty"`
+    Age   optnull.OptNull[int]       `json:"age,omitempty"`
+    Birth optnull.OptNull[time.Time] `json:"birth,omitempty"`
 }
 
 var u User
